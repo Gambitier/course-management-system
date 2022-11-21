@@ -1,4 +1,4 @@
-import { compareHash } from '@common/utils';
+import { compareHash, hashData } from '@common/utils';
 import { UserRoleEnum } from '@modules/auth/common';
 import { UpdatePasswordDto } from '@modules/auth/dto';
 import { SignupDto } from '@modules/auth/dto/request-dto/signup.dto';
@@ -33,6 +33,7 @@ export class AuthService implements IAuthService {
   ): Promise<{ user: UserDomainModel; token: TokenDto }> {
     const user: UserDomainModel = await this.userService.createUser({
       ...signupDto,
+      password: hashData(signupDto.password),
       userRoles: [UserRoleEnum.EMPLOYEE],
     });
 

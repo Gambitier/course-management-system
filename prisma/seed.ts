@@ -1,8 +1,14 @@
 import { Prisma, PrismaClient, Role } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 /////////////////////////////////////////////////
 
 const prisma = new PrismaClient();
+
+function hashData(data: string | Buffer): string {
+  const hash = bcrypt.hashSync(data, bcrypt.genSaltSync(8));
+  return hash;
+}
 
 async function main() {
   const admin: Prisma.UserCreateInput = {
@@ -11,7 +17,7 @@ async function main() {
     lastName: 'CMS',
     email: 'cms-admin@yopmail.com',
     phone: '1234567890',
-    password: 'Test@123',
+    password: hashData('Test@123'),
     userRoles: {
       create: {
         role: Role.ADMIN,
@@ -25,7 +31,7 @@ async function main() {
     lastName: 'CMS',
     email: 'cms-superadmin@yopmail.com',
     phone: '2234567890',
-    password: 'Test@123',
+    password: hashData('Test@123'),
     userRoles: {
       create: {
         role: Role.SUPERADMIN,
@@ -39,7 +45,7 @@ async function main() {
     lastName: 'CMS',
     email: 'cms-employee@yopmail.com',
     phone: '2334567890',
-    password: 'Test@123',
+    password: hashData('Test@123'),
     userRoles: {
       create: {
         role: Role.EMPLOYEE,
