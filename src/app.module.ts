@@ -1,5 +1,6 @@
 import { AuthModule } from '@modules/auth/auth.module';
 import { JwtGuard, RolesGuard } from '@modules/auth/common';
+import { CourseModule } from '@modules/course/course.module';
 import { DatabaseErrorHandlerModule } from '@modules/database-error-handler/database.error.handler.module';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { PrismaService } from 'src/prisma.service';
     UserModule,
     AuthModule,
     DatabaseErrorHandlerModule,
+    CourseModule,
   ],
   controllers: [],
   providers: [
