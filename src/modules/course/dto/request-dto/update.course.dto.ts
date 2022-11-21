@@ -32,7 +32,7 @@ export class UpdateCourseDto {
 
   @ApiProperty()
   @IsNumber()
-  durationMinutes: bigint;
+  durationMinutes: number;
 
   @ApiProperty()
   @IsString()

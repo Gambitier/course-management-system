@@ -3,10 +3,13 @@ import { Roles, UserRoleEnum } from '@modules/auth/common';
 import { JwtUserDataDto } from '@modules/auth/dto/response-dto/jwt.user.data.dto';
 import { CreateCourseDto } from '@modules/course/dto/request-dto/create.course.dto';
 import { UpdateCourseDto } from '@modules/course/dto/request-dto/update.course.dto';
+import { CourseDto } from '@modules/course/dto/response-dto/course.dto';
 import { ICourseService } from '@modules/course/services/course.service.interface';
 import {
   Body,
   Controller,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Inject,
@@ -30,7 +33,7 @@ export class CourseController {
   ) {}
 
   @Roles(UserRoleEnum.ADMIN)
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   @Post('')
   async createCourse(
     @Request() req,
@@ -67,6 +70,40 @@ export class CourseController {
     const apiResponse: APIResponse = {
       message: 'Course updated successfully!',
       data: status,
+    };
+
+    return apiResponse;
+  }
+
+  @Roles(UserRoleEnum.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Delete(':courseId')
+  async deleteCourse(
+    @Request() req,
+    @Param('courseId', new ParseUUIDPipe()) courseId: string,
+  ): Promise<APIResponse> {
+    const status: boolean = await this._courseService.deleteCourse(courseId);
+
+    const apiResponse: APIResponse = {
+      message: 'Course deleted successfully!',
+      data: status,
+    };
+
+    return apiResponse;
+  }
+
+  @Roles(UserRoleEnum.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Get(':courseId')
+  async getCourseById(
+    @Request() req,
+    @Param('courseId', new ParseUUIDPipe()) courseId: string,
+  ): Promise<APIResponse> {
+    const data: CourseDto = await this._courseService.getCourseById(courseId);
+
+    const apiResponse: APIResponse = {
+      message: 'Retrieved course by id',
+      data: data,
     };
 
     return apiResponse;

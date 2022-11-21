@@ -30,6 +30,33 @@ export class CourseRepository implements ICourseRepository {
     this._courseEntity = prismaService.course;
   }
 
+  async getCourseById(courseId: string): Promise<CourseDomainModel> {
+    const data = await this._courseEntity.findFirstOrThrow({
+      where: {
+        id: courseId,
+      },
+    });
+
+    return data;
+  }
+
+  async deleteCourse(courseId: string): Promise<boolean> {
+    try {
+      await this._courseEntity.update({
+        where: {
+          id: courseId,
+        },
+        data: {
+          deleted: new Date(),
+        },
+      });
+    } catch (err) {
+      this._databaseErrorHandler.HandleError(err);
+    }
+
+    return true;
+  }
+
   async createCourse(
     createDomainModel: CreateCourseDomainModel,
   ): Promise<CourseDomainModel> {

@@ -55,7 +55,7 @@ model Course {
   description     String
   videoUrl        String             @db.VarChar(2048)
   topics          String[]
-  durationMinutes BigInt
+  durationMinutes Int
   category        String             @db.VarChar(100)
   createdAt       DateTime           @default(now()) @db.Timestamptz(6)
   updatedAt       DateTime           @updatedAt @db.Timestamptz(6)

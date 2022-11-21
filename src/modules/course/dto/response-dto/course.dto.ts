@@ -1,40 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  ArrayMinSize,
-  IsArray,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
 
-export class CreateCourseDto {
-  constructor(props: CreateCourseDto) {
+export class CourseDto {
+  constructor(props: CourseDto) {
     Object.assign(this, props);
   }
 
   @ApiProperty()
-  @IsString()
+  id: string;
+
+  @ApiProperty()
   title: string;
 
   @ApiProperty()
-  @IsString()
   description: string;
 
   @ApiProperty()
-  @IsString()
   videoUrl: string;
 
   @ApiProperty()
-  @IsArray()
-  @ArrayMinSize(1)
-  @IsNotEmpty()
   topics: string[];
 
   @ApiProperty()
-  @IsNumber()
   durationMinutes: number;
 
   @ApiProperty()
-  @IsString()
   category: string;
 }

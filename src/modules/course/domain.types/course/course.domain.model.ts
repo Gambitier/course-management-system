@@ -6,7 +6,7 @@ export type CourseDomainModel = {
   description: string;
   videoUrl: string;
   topics: string[];
-  durationMinutes: bigint;
+  durationMinutes: number;
   category: string;
   createdAt: Date;
   updatedAt: Date;
@@ -19,7 +19,7 @@ export type CreateCourseDomainModel = {
   description: string;
   videoUrl: string;
   topics: string[];
-  durationMinutes: bigint;
+  durationMinutes: number;
   category: string;
   createdByUserId: string;
 };
@@ -29,6 +29,6 @@ export type UpdatCourseDomainModel = {
   description: string;
   videoUrl: string;
   topics: string[];
-  durationMinutes: bigint;
+  durationMinutes: number;
   category: string;
 };
