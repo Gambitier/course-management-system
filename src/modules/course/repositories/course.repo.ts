@@ -31,13 +31,18 @@ export class CourseRepository implements ICourseRepository {
   }
 
   async getCourseById(courseId: string): Promise<CourseDomainModel> {
-    const data = await this._courseEntity.findFirstOrThrow({
-      where: {
-        id: courseId,
-      },
-    });
+    try {
+      const data = await this._courseEntity.findFirstOrThrow({
+        where: {
+          id: courseId,
+          deleted: null,
+        },
+      });
 
-    return data;
+      return data;
+    } catch (err) {
+      this._databaseErrorHandler.HandleError(err);
+    }
   }
 
   async deleteCourse(courseId: string): Promise<boolean> {
