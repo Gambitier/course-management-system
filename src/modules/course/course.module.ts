@@ -1,3 +1,4 @@
+import { CourseController } from '@modules/course/course.controller';
 import {
   CourseEnrollmentRepositoryProvider,
   CourseRepositoryProvider,
@@ -7,7 +8,7 @@ import { Module } from '@nestjs/common';
 
 @Module({
   imports: [],
-  controllers: [],
+  controllers: [CourseController],
   providers: [
     CourseServiceProvider,
     CourseRepositoryProvider,
