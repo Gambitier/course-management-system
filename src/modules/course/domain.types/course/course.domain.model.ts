@@ -23,3 +23,12 @@ export type CreateCourseDomainModel = {
   category: string;
   createdByUserId: string;
 };
+
+export type UpdatCourseDomainModel = {
+  title: string;
+  description: string;
+  videoUrl: string;
+  topics: string[];
+  durationMinutes: bigint;
+  category: string;
+};

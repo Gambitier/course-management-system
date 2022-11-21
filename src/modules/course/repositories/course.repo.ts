@@ -1,6 +1,7 @@
 import {
   CourseDomainModel,
   CreateCourseDomainModel,
+  UpdatCourseDomainModel,
 } from '@modules/course/domain.types/course';
 import { ICourseRepository } from '@modules/course/repositories/course.repo.interface';
 import { IDatabaseErrorHandler } from '@modules/database-error-handler/database.error.handler.interface';
@@ -49,6 +50,26 @@ export class CourseRepository implements ICourseRepository {
     try {
       entity = await this._courseEntity.create({
         data: data,
+      });
+    } catch (err) {
+      this._databaseErrorHandler.HandleError(err);
+    }
+
+    return entity;
+  }
+
+  async updateCourse(
+    id: string,
+    domainModel: UpdatCourseDomainModel,
+  ): Promise<CourseDomainModel> {
+    let entity: Course;
+
+    try {
+      entity = await this._courseEntity.update({
+        data: domainModel,
+        where: {
+          id: id,
+        },
       });
     } catch (err) {
       this._databaseErrorHandler.HandleError(err);
