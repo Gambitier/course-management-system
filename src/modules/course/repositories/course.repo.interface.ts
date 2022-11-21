@@ -1,7 +1,14 @@
+import {
+  CourseDomainModel,
+  CreateCourseDomainModel,
+} from '@modules/course/domain.types/course';
+
 ///////////////////////////////
 
 export const ICourseRepository = Symbol('ICourseRepository');
 
 export interface ICourseRepository {
-  test();
+  createCourse(
+    createDomainModel: CreateCourseDomainModel,
+  ): Promise<CourseDomainModel>;
 }

@@ -9,10 +9,9 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<UserRoleEnum[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const requiredRoles: UserRoleEnum[] = this.reflector.getAllAndOverride<
+      UserRoleEnum[]
+    >(ROLES_KEY, [context.getHandler(), context.getClass()]);
 
     if (!requiredRoles) {
       return true;
@@ -21,8 +20,12 @@ export class RolesGuard implements CanActivate {
     const { user }: { user: JwtUserDataDto } = context
       .switchToHttp()
       .getRequest();
-    const roles: string[] = user?.userRoles?.map((userRole) => userRole.role);
-    const isAuthorized: boolean = requiredRoles.some((role) =>
+
+    const roles: UserRoleEnum[] = user?.userRoles?.map(
+      (userRole) => userRole.role as UserRoleEnum,
+    );
+
+    const isAuthorized: boolean = requiredRoles.some((role: UserRoleEnum) =>
       roles.includes(role),
     );
 

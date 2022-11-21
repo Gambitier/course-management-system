@@ -5,11 +5,13 @@ import {
 } from '@modules/course/repo.providers';
 import { CourseServiceProvider } from '@modules/course/service.providers';
 import { Module } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [],
   controllers: [CourseController],
   providers: [
+    PrismaService,
     CourseServiceProvider,
     CourseRepositoryProvider,
     CourseEnrollmentRepositoryProvider,
