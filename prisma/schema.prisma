@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,35 +5,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model User {
-  id          String    @id @default(uuid()) @db.Uuid
-  prefix      String    @db.VarChar(10)
-  firstName   String    @db.VarChar(50)
-  middleName  String?   @db.VarChar(50)
-  lastName    String    @db.VarChar(50)
-  email       String    @unique @db.VarChar(100)
-  phone       String    @unique @db.VarChar(15)
-  password    String    @db.VarChar(256)
-  gender      Gender    @default(UNSPECIFIED)
-  dateOfBirth DateTime? @db.Timestamptz(6)
-  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
-  deleted     DateTime? @db.Timestamptz(6)
-
-  userRoles UserRole[]
-}
-
-model UserRole {
-  id        String    @id @default(uuid()) @db.Uuid
-  role      Role      @default(EMPLOYEE)
-  userId    String    @db.Uuid
-  createdAt DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime  @updatedAt @db.Timestamptz(6)
-  deleted   DateTime? @db.Timestamptz(6)
-
-  user User @relation(fields: [userId], references: [id])
 }
 
 enum Role {
@@ -50,4 +18,60 @@ enum Gender {
   FEMALE
   OTHER
   UNSPECIFIED
+}
+
+model User {
+  id              String             @id @default(uuid()) @db.Uuid
+  prefix          String             @db.VarChar(10)
+  firstName       String             @db.VarChar(50)
+  middleName      String?            @db.VarChar(50)
+  lastName        String             @db.VarChar(50)
+  email           String             @unique @db.VarChar(100)
+  phone           String             @unique @db.VarChar(15)
+  password        String             @db.VarChar(256)
+  gender          Gender             @default(UNSPECIFIED)
+  dateOfBirth     DateTime?          @db.Timestamptz(6)
+  createdAt       DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime           @updatedAt @db.Timestamptz(6)
+  deleted         DateTime?          @db.Timestamptz(6)
+  userRoles       UserRole[]
+  coursesCreated  Course[]
+  coursesEnrolled CourseEnrollment[]
+}
+
+model UserRole {
+  id        String    @id @default(uuid()) @db.Uuid
+  role      Role      @default(EMPLOYEE)
+  userId    String    @db.Uuid
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(6)
+  deleted   DateTime? @db.Timestamptz(6)
+}
+
+model Course {
+  id              String             @id @default(uuid()) @db.Uuid
+  title           String             @unique @db.VarChar(500)
+  description     String
+  videoUrl        String             @db.VarChar(2048)
+  topics          String[]
+  durationMinutes BigInt
+  category        String             @db.VarChar(100)
+  createdAt       DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime           @updatedAt @db.Timestamptz(6)
+  deleted         DateTime?          @db.Timestamptz(6)
+  createdBy       User               @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String             @db.Uuid
+  enrollments     CourseEnrollment[]
+}
+
+model CourseEnrollment {
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(6)
+  deleted   DateTime? @db.Timestamptz(6)
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String    @db.Uuid
+  course    Course    @relation(fields: [courseId], references: [id])
+  courseId  String    @db.Uuid
 }
