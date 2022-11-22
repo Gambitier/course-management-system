@@ -35,8 +35,9 @@ model User {
   updatedAt       DateTime           @updatedAt @db.Timestamptz(6)
   deleted         DateTime?          @db.Timestamptz(6)
   userRoles       UserRole[]
-  coursesCreated  Course[]
   coursesEnrolled CourseEnrollment[]
+  coursesCreated  Course[]           @relation(name: "CourseCreatedByUser")
+  coursesApproved Course[]           @relation(name: "CourseApprovedByUser")
 }
 
 model UserRole {
@@ -50,19 +51,22 @@ model UserRole {
 }
 
 model Course {
-  id              String             @id @default(uuid()) @db.Uuid
-  title           String             @unique @db.VarChar(500)
-  description     String
-  videoUrl        String             @db.VarChar(2048)
-  topics          String[]
-  durationMinutes Int
-  category        String             @db.VarChar(100)
-  createdAt       DateTime           @default(now()) @db.Timestamptz(6)
-  updatedAt       DateTime           @updatedAt @db.Timestamptz(6)
-  deleted         DateTime?          @db.Timestamptz(6)
-  createdBy       User               @relation(fields: [createdByUserId], references: [id])
-  createdByUserId String             @db.Uuid
-  enrollments     CourseEnrollment[]
+  id               String             @id @default(uuid()) @db.Uuid
+  title            String             @unique @db.VarChar(500)
+  description      String
+  videoUrl         String             @db.VarChar(2048)
+  topics           String[]
+  durationMinutes  Int
+  category         String             @db.VarChar(100)
+  createdAt        DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime           @updatedAt @db.Timestamptz(6)
+  deleted          DateTime?          @db.Timestamptz(6)
+  enrollments      CourseEnrollment[]
+  createdBy        User               @relation(name: "CourseCreatedByUser", fields: [createdByUserId], references: [id])
+  createdByUserId  String             @db.Uuid
+  approvedBy       User?              @relation(name: "CourseApprovedByUser", fields: [approvedByUserId], references: [id])
+  approvedByUserId String?            @db.Uuid
+  approvedAt       DateTime?          @db.Timestamptz(6)
 }
 
 model CourseEnrollment {
