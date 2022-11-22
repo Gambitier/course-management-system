@@ -124,7 +124,27 @@ export class CourseController {
     @Query() searchDTO: CourseSearchCourse,
   ): Promise<APIResponse> {
     const courses: BaseSearchResults<CourseDto> =
-      await this._courseService.searchCourse(searchDTO);
+      await this._courseService.searchCourse(searchDTO, false);
+
+    const apiResponse: APIResponse = {
+      message: 'Fetched list successfully!',
+      data: courses,
+    };
+
+    return apiResponse;
+  }
+
+  @ApiResponse({ status: HttpStatus.OK })
+  @HttpCode(HttpStatus.OK)
+  @Roles(UserRoleEnum.SUPERADMIN)
+  @Get('unapproved')
+  async getUnapprovedCourses(
+    @Request() req,
+    @Query() searchDTO: CourseSearchCourse,
+  ): Promise<APIResponse> {
+    const unaaprovedOnly = true;
+    const courses: BaseSearchResults<CourseDto> =
+      await this._courseService.searchCourse(searchDTO, unaaprovedOnly);
 
     const apiResponse: APIResponse = {
       message: 'Fetched list successfully!',

@@ -28,9 +28,10 @@ export class CourseService implements ICourseService {
 
   async searchCourse(
     searchDTO: CourseSearchCourse,
+    unaaprovedOnly: boolean,
   ): Promise<BaseSearchResults<CourseDto>> {
     const data: BaseSearchResults<CourseDomainModel> =
-      await this._courseRepository.searchCourse(searchDTO);
+      await this._courseRepository.searchCourse(searchDTO, unaaprovedOnly);
 
     return data;
   }

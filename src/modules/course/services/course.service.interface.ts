@@ -12,6 +12,7 @@ export const ICourseService = Symbol('ICourseService');
 export interface ICourseService {
   searchCourse(
     searchDTO: CourseSearchCourse,
+    unaaprovedOnly: boolean,
   ): Promise<BaseSearchResults<CourseDto>>;
 
   approveCourse(

@@ -13,6 +13,7 @@ export const ICourseRepository = Symbol('ICourseRepository');
 export interface ICourseRepository {
   searchCourse(
     searchDTO: CourseSearchCourse,
+    unaaprovedOnly: boolean,
   ): Promise<BaseSearchResults<CourseDomainModel>>;
 
   approveCourse(courseId: string, userId: string): Promise<boolean>;

@@ -38,14 +38,21 @@ export class CourseRepository implements ICourseRepository {
 
   async searchCourse(
     searchDTO: CourseSearchCourse,
+    unaaprovedOnly: boolean,
   ): Promise<BaseSearchResults<CourseDomainModel>> {
     const findConditions: Prisma.CourseWhereInput[] = [];
 
-    findConditions.push({
-      approvedAt: {
-        not: null,
-      },
-    });
+    if (unaaprovedOnly) {
+      findConditions.push({
+        approvedAt: null,
+      });
+    } else {
+      findConditions.push({
+        approvedAt: {
+          not: null,
+        },
+      });
+    }
 
     findConditions.push({
       deleted: null,
