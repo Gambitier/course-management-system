@@ -1,7 +1,9 @@
 import { APIResponse } from '@common/types';
+import { BaseSearchResults } from '@common/types/base.search.dto';
 import { Roles, UserRoleEnum } from '@modules/auth/common';
 import { JwtUserDataDto } from '@modules/auth/dto/response-dto/jwt.user.data.dto';
 import { CreateCourseDto } from '@modules/course/dto/request-dto/create.course.dto';
+import { CourseSearchCourse } from '@modules/course/dto/request-dto/search.course.dto';
 import { UpdateCourseDto } from '@modules/course/dto/request-dto/update.course.dto';
 import { CourseDto } from '@modules/course/dto/response-dto/course.dto';
 import { ICourseService } from '@modules/course/services/course.service.interface';
@@ -17,9 +19,10 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Query,
   Request,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -125,6 +128,26 @@ export class CourseController {
     const apiResponse: APIResponse = {
       message: 'Retrieved course by id',
       data: data,
+    };
+
+    return apiResponse;
+  }
+
+  @ApiResponse({ status: HttpStatus.OK })
+  @HttpCode(HttpStatus.OK)
+  @Get('search')
+  async searchCourse(
+    @Request() req,
+    @Query() searchDTO: CourseSearchCourse,
+  ): Promise<APIResponse> {
+    const courses: BaseSearchResults<CourseDto> =
+      await this._courseService.searchCourse(searchDTO);
+
+    const apiResponse: APIResponse = {
+      message: 'Fetched list successfully!',
+      data: {
+        entity: courses,
+      },
     };
 
     return apiResponse;

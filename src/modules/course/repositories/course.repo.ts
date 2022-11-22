@@ -1,8 +1,14 @@
+import { SortOrder } from '@common/enums/resourse.sort.order.enum';
+import { BaseSearchResults } from '@common/types/base.search.dto';
 import {
   CourseDomainModel,
   CreateCourseDomainModel,
   UpdatCourseDomainModel,
 } from '@modules/course/domain.types/course';
+import {
+  CourseSearchCourse,
+  CourseSortByEnum,
+} from '@modules/course/dto/request-dto/search.course.dto';
 import { ICourseRepository } from '@modules/course/repositories/course.repo.interface';
 import { IDatabaseErrorHandler } from '@modules/database-error-handler/database.error.handler.interface';
 import { Inject, Injectable } from '@nestjs/common';
@@ -22,12 +28,83 @@ export class CourseRepository implements ICourseRepository {
   >;
 
   constructor(
-    prismaService: PrismaService,
+    private prismaService: PrismaService,
 
     @Inject(IDatabaseErrorHandler)
     private _databaseErrorHandler: IDatabaseErrorHandler,
   ) {
     this._courseEntity = prismaService.course;
+  }
+
+  async searchCourse(
+    searchDTO: CourseSearchCourse,
+  ): Promise<BaseSearchResults<CourseDomainModel>> {
+    const findConditions: Prisma.CourseWhereInput[] = [];
+
+    findConditions.push({
+      approvedBy: {
+        NOT: null,
+      },
+    });
+
+    findConditions.push({
+      deleted: null,
+    });
+
+    if (searchDTO.title) {
+      findConditions.push({
+        title: {
+          contains: searchDTO.title,
+          mode: 'insensitive',
+        },
+      });
+    }
+
+    const sortOrder: Prisma.SortOrder =
+      searchDTO.sortOrder === SortOrder.Ascending
+        ? Prisma.SortOrder.asc
+        : Prisma.SortOrder.desc;
+
+    let orderBy: Prisma.CourseOrderByWithRelationInput;
+    switch (searchDTO.sortBy) {
+      case CourseSortByEnum.Category:
+        orderBy = {
+          category: sortOrder,
+        };
+        break;
+      default:
+      case CourseSortByEnum.CreatedAt:
+        orderBy = {
+          createdAt: sortOrder,
+        };
+        break;
+    }
+
+    const countQuery = this._courseEntity.count({
+      where: {
+        AND: findConditions,
+      },
+    });
+
+    const findQuery = this._courseEntity.findMany({
+      where: {
+        AND: findConditions,
+      },
+      orderBy: orderBy,
+      skip: searchDTO.offset,
+      take: searchDTO.limit,
+    });
+
+    const [totalCount, courses]: [number, Course[]] =
+      await this.prismaService.$transaction([countQuery, findQuery]);
+
+    const response: BaseSearchResults<CourseDomainModel> = {
+      TotalCount: totalCount,
+      RetrievedCount: courses.length,
+      Result: courses,
+    };
+
+    return response;
   }
 
   async approveCourse(courseId: string, userId: string): Promise<boolean> {

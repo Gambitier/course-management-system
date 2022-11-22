@@ -1,9 +1,11 @@
+import { BaseSearchResults } from '@common/types/base.search.dto';
 import { JwtUserDataDto } from '@modules/auth/dto/response-dto/jwt.user.data.dto';
 import {
   CourseDomainModel,
   CreateCourseDomainModel,
 } from '@modules/course/domain.types/course';
 import { CreateCourseDto } from '@modules/course/dto/request-dto/create.course.dto';
+import { CourseSearchCourse } from '@modules/course/dto/request-dto/search.course.dto';
 import { UpdateCourseDto } from '@modules/course/dto/request-dto/update.course.dto';
 import { CourseDto } from '@modules/course/dto/response-dto/course.dto';
 import { ICourseRepository } from '@modules/course/repositories/course.repo.interface';
@@ -22,6 +24,15 @@ export class CourseService implements ICourseService {
     private _courseRepository: ICourseRepository,
   ) {
     //
+  }
+
+  async searchCourse(
+    searchDTO: CourseSearchCourse,
+  ): Promise<BaseSearchResults<CourseDto>> {
+    const data: BaseSearchResults<CourseDomainModel> =
+      await this._courseRepository.searchCourse(searchDTO);
+
+    return data;
   }
 
   async approveCourse(
