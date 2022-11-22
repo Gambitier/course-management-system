@@ -116,23 +116,6 @@ export class CourseController {
     return apiResponse;
   }
 
-  @Roles(UserRoleEnum.ADMIN)
-  @HttpCode(HttpStatus.OK)
-  @Get(':courseId')
-  async getCourseById(
-    @Request() req,
-    @Param('courseId', new ParseUUIDPipe()) courseId: string,
-  ): Promise<APIResponse> {
-    const data: CourseDto = await this._courseService.getCourseById(courseId);
-
-    const apiResponse: APIResponse = {
-      message: 'Retrieved course by id',
-      data: data,
-    };
-
-    return apiResponse;
-  }
-
   @ApiResponse({ status: HttpStatus.OK })
   @HttpCode(HttpStatus.OK)
   @Get('search')
@@ -145,9 +128,24 @@ export class CourseController {
 
     const apiResponse: APIResponse = {
       message: 'Fetched list successfully!',
-      data: {
-        entity: courses,
-      },
+      data: courses,
+    };
+
+    return apiResponse;
+  }
+
+  @Roles(UserRoleEnum.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Get(':courseId')
+  async getCourseById(
+    @Request() req,
+    @Param('courseId', new ParseUUIDPipe()) courseId: string,
+  ): Promise<APIResponse> {
+    const data: CourseDto = await this._courseService.getCourseById(courseId);
+
+    const apiResponse: APIResponse = {
+      message: 'Retrieved course by id',
+      data: data,
     };
 
     return apiResponse;

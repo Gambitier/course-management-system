@@ -42,8 +42,8 @@ export class CourseRepository implements ICourseRepository {
     const findConditions: Prisma.CourseWhereInput[] = [];
 
     findConditions.push({
-      approvedBy: {
-        NOT: null,
+      approvedAt: {
+        not: null,
       },
     });
 
