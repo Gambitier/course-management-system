@@ -75,6 +75,27 @@ export class CourseController {
     return apiResponse;
   }
 
+  @Roles(UserRoleEnum.SUPERADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Put(':courseId/approve')
+  async approveCourse(
+    @Request() req,
+    @Param('courseId', new ParseUUIDPipe()) courseId: string,
+  ): Promise<APIResponse> {
+    const user = req.user as JwtUserDataDto;
+    const status: boolean = await this._courseService.approveCourse(
+      courseId,
+      user,
+    );
+
+    const apiResponse: APIResponse = {
+      message: 'Course approved successfully!',
+      data: status,
+    };
+
+    return apiResponse;
+  }
+
   @Roles(UserRoleEnum.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Delete(':courseId')

@@ -24,6 +24,18 @@ export class CourseService implements ICourseService {
     //
   }
 
+  async approveCourse(
+    courseId: string,
+    user: JwtUserDataDto,
+  ): Promise<boolean> {
+    const status: boolean = await this._courseRepository.approveCourse(
+      courseId,
+      user.id,
+    );
+
+    return status;
+  }
+
   async getCourseById(courseId: string): Promise<CourseDto> {
     const data: CourseDomainModel = await this._courseRepository.getCourseById(
       courseId,

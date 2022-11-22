@@ -9,6 +9,7 @@ import {
 export const ICourseRepository = Symbol('ICourseRepository');
 
 export interface ICourseRepository {
+  approveCourse(courseId: string, userId: string): Promise<boolean>;
   getCourseById(courseId: string): Promise<CourseDomainModel>;
 
   deleteCourse(courseId: string): Promise<boolean>;

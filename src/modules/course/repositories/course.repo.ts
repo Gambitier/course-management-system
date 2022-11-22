@@ -30,6 +30,28 @@ export class CourseRepository implements ICourseRepository {
     this._courseEntity = prismaService.course;
   }
 
+  async approveCourse(courseId: string, userId: string): Promise<boolean> {
+    try {
+      await this._courseEntity.update({
+        data: {
+          approvedAt: new Date(),
+          approvedBy: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+        where: {
+          id: courseId,
+        },
+      });
+    } catch (err) {
+      this._databaseErrorHandler.HandleError(err);
+    }
+
+    return true;
+  }
+
   async getCourseById(courseId: string): Promise<CourseDomainModel> {
     try {
       const data = await this._courseEntity.findFirstOrThrow({
@@ -98,7 +120,11 @@ export class CourseRepository implements ICourseRepository {
 
     try {
       entity = await this._courseEntity.update({
-        data: domainModel,
+        data: {
+          ...domainModel,
+          approvedBy: null,
+          approvedAt: null,
+        },
         where: {
           id: id,
         },

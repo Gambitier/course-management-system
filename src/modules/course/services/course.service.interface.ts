@@ -8,6 +8,11 @@ import { CourseDto } from '@modules/course/dto/response-dto/course.dto';
 export const ICourseService = Symbol('ICourseService');
 
 export interface ICourseService {
+  approveCourse(
+    courseId: string,
+    user: JwtUserDataDto,
+  ): boolean | PromiseLike<boolean>;
+
   getCourseById(courseId: string): Promise<CourseDto>;
 
   deleteCourse(courseId: string): boolean | PromiseLike<boolean>;
