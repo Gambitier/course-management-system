@@ -1,4 +1,5 @@
-import { CourseController } from '@modules/course/course.controller';
+import { CourseController } from '@modules/course/controllers/course.controller';
+import { CourseEnrollmentController } from '@modules/course/controllers/course.enrollment.controller';
 import {
   CourseEnrollmentRepositoryProvider,
   CourseRepositoryProvider,
@@ -9,7 +10,7 @@ import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [],
-  controllers: [CourseController],
+  controllers: [CourseController, CourseEnrollmentController],
   providers: [
     PrismaService,
     CourseServiceProvider,
