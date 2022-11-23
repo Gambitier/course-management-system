@@ -36,7 +36,7 @@ export class CourseEnrollmentController {
       await this._courseEnrollmentService.getCourseEnrollments(courseId);
 
     const apiResponse: APIResponse = {
-      message: 'Retrieved course by id',
+      message: 'Retrieved course enrollments',
       data: enrollments,
     };
 
@@ -55,7 +55,7 @@ export class CourseEnrollmentController {
     await this._courseEnrollmentService.enrollForCourse(courseId, user.id);
 
     const apiResponse: APIResponse = {
-      message: 'Retrieved course by id',
+      message: 'Enrolled for course',
       data: true,
     };
 

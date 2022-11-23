@@ -1,9 +1,15 @@
 ///////////////////////////////
 
+import { CourseEnrollmeentDomainModel } from '@modules/course/domain.types/course-enrollment/course.enrollment.domain.model';
+
 export const ICourseEnrollmentRepository = Symbol(
   'ICourseEnrollmentRepository',
 );
 
 export interface ICourseEnrollmentRepository {
-  test();
+  getCourseEnrollments(
+    courseId: string,
+  ): Promise<CourseEnrollmeentDomainModel[]>;
+
+  enrollForCourse(courseId: string, userId: string): Promise<boolean>;
 }

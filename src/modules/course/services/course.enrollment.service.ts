@@ -1,3 +1,4 @@
+import { CourseEnrollmeentDomainModel } from '@modules/course/domain.types/course-enrollment/course.enrollment.domain.model';
 import { ICourseEnrollmentRepository } from '@modules/course/repositories/course.enrollment.repo.interface';
 import { ICourseEnrollmentService } from '@modules/course/services/course.enrollment.service.interface';
 import { Inject, Injectable } from '@nestjs/common';
@@ -14,11 +15,17 @@ export class CourseEnrollmentService implements ICourseEnrollmentService {
     //
   }
 
-  enrollForCourse(courseId: string, userId: string): unknown {
-    throw new Error('Method not implemented.');
+  async enrollForCourse(courseId: string, userId: string): Promise<boolean> {
+    await this._courseEnrollmentRepository.enrollForCourse(courseId, userId);
+    return true;
   }
 
-  getCourseEnrollments(courseId: string): unknown {
-    throw new Error('Method not implemented.');
+  async getCourseEnrollments(
+    courseId: string,
+  ): Promise<CourseEnrollmeentDomainModel[]> {
+    const data = await this._courseEnrollmentRepository.getCourseEnrollments(
+      courseId,
+    );
+    return data;
   }
 }

@@ -31,8 +31,9 @@ export class PrismaDatabaseErrorHandler implements IDatabaseErrorHandler {
 
     switch (errorCode) {
       case PrismaError.UniqueConstraintViolation: {
-        const msg = `${error.meta.target[0]} already in use`;
-        throw new UniqueConstraintFailedError(error.meta.target[0], msg);
+        const fieldName = (error.meta.target as string[]).join(' & ');
+        const msg = `${fieldName} already in use`;
+        throw new UniqueConstraintFailedError(fieldName, msg);
       }
     }
   }
