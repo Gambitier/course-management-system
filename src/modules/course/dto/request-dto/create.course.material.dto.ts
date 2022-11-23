@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateCourseMaterialDto {
   constructor(props: CreateCourseMaterialDto) {
@@ -12,13 +12,16 @@ export class CreateCourseMaterialDto {
 
   @ApiProperty()
   @IsString()
+  @IsOptional()
   videoUrl: string;
 
   @ApiProperty()
   @IsString()
+  @IsOptional()
   pdfUrl: string;
 
   @ApiProperty()
   @IsString()
+  @IsOptional()
   quizUrl: string;
 }
