@@ -3,6 +3,7 @@ import { CourseMaterialProgressDto } from '@modules/course/dto/request-dto/cours
 import { CreateCourseMaterialDto } from '@modules/course/dto/request-dto/create.course.material.dto';
 import { ICourseMaterialProgressRepository } from '@modules/course/repositories/course.material.progress.repo.interface';
 import { ICourseMaterialRepository } from '@modules/course/repositories/course.material.repo.interface';
+import { ICourseProgressRewardRepository } from '@modules/course/repositories/course.progress.rewards.interface';
 import { ICourseEnrollmentService } from '@modules/course/services/course.enrollment.service.interface';
 import { ICourseMaterialService } from '@modules/course/services/course.material.service.interface';
 import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
@@ -17,6 +18,8 @@ export class CourseMaterialService implements ICourseMaterialService {
     private _courseMaterialRepository: ICourseMaterialRepository,
     @Inject(ICourseMaterialProgressRepository)
     private _courseMaterialProgressRepository: ICourseMaterialProgressRepository,
+    @Inject(ICourseProgressRewardRepository)
+    private _courseProgressRewardRepository: ICourseProgressRewardRepository,
     @Inject(ICourseEnrollmentService)
     private _courseEnrollmentService: ICourseEnrollmentService,
   ) {}
@@ -45,7 +48,33 @@ export class CourseMaterialService implements ICourseMaterialService {
       requestDto.progressPercentage,
     );
 
+    const overallProgressPercentage: number =
+      await this._courseMaterialProgressRepository.getCourseOverallProgressPercentage(
+        courseEnrollmentId,
+      );
+
+    await this.updateCourseRewardPoints(
+      courseEnrollmentId,
+      overallProgressPercentage,
+    );
+
     return true;
+  }
+
+  async updateCourseRewardPoints(
+    courseEnrollmentId: string,
+    overallProgressPercentage: number,
+  ) {
+    const rewardPoints = this.calculateRewardPoints(overallProgressPercentage);
+    await this._courseProgressRewardRepository.updateCourseRewardPoints(
+      courseEnrollmentId,
+      rewardPoints,
+      overallProgressPercentage,
+    );
+  }
+
+  calculateRewardPoints(overallProgressPercentage: number) {
+    return overallProgressPercentage;
   }
 
   async createCourseMaterial(

@@ -4,6 +4,8 @@ import { CourseMaterialProgressRepository } from '@modules/course/repositories/c
 import { ICourseMaterialProgressRepository } from '@modules/course/repositories/course.material.progress.repo.interface';
 import { CourseMaterialRepository } from '@modules/course/repositories/course.material.repo';
 import { ICourseMaterialRepository } from '@modules/course/repositories/course.material.repo.interface';
+import { ICourseProgressRewardRepository } from '@modules/course/repositories/course.progress.rewards.interface';
+import { CourseProgressRewardRepository } from '@modules/course/repositories/course.progress.rewards.repo';
 import { CourseRepository } from '@modules/course/repositories/course.repo';
 import { ICourseRepository } from '@modules/course/repositories/course.repo.interface';
 import { Provider } from '@nestjs/common';
@@ -26,4 +28,9 @@ export const CourseMaterialRepositoryProvider: Provider = {
 export const CourseMaterialProgressRepositoryProvider: Provider = {
   provide: ICourseMaterialProgressRepository,
   useClass: CourseMaterialProgressRepository,
+};
+
+export const CourseProgressRewardRepositoryProvider: Provider = {
+  provide: ICourseProgressRewardRepository,
+  useClass: CourseProgressRewardRepository,
 };

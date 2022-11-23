@@ -5,6 +5,7 @@ import {
   CourseEnrollmentRepositoryProvider,
   CourseMaterialProgressRepositoryProvider,
   CourseMaterialRepositoryProvider,
+  CourseProgressRewardRepositoryProvider,
   CourseRepositoryProvider,
 } from '@modules/course/repo.providers';
 import {
@@ -31,6 +32,7 @@ import { PrismaService } from 'src/prisma.service';
     CourseMaterialServiceProvider,
     CourseMaterialRepositoryProvider,
     CourseMaterialProgressRepositoryProvider,
+    CourseProgressRewardRepositoryProvider,
   ],
   exports: [
     CourseServiceProvider,

@@ -5,9 +5,13 @@ export const ICourseMaterialProgressRepository = Symbol(
 );
 
 export interface ICourseMaterialProgressRepository {
+  getCourseOverallProgressPercentage(
+    courseEnrollmentId: string,
+  ): Promise<number>;
+
   upsertCourseMaterialProgess(
     courseEnrollmentId: string,
     courseMaterialId: string,
     progressPercentage: number,
-  ): Promise<boolean>;
+  ): Promise<string>;
 }

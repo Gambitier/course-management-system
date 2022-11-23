@@ -27,12 +27,30 @@ export class CourseMaterialProgressRepository
     this._courseMaterialProgressEntity = prismaService.courseMaterialProgress;
   }
 
+  async getCourseOverallProgressPercentage(
+    courseEnrollmentId: string,
+  ): Promise<number> {
+    const setValue = await this._courseMaterialProgressEntity.aggregate({
+      where: {
+        courseEnrollmentId: courseEnrollmentId,
+      },
+      _sum: {
+        progressPercentage: true,
+      },
+    });
+
+    return setValue._sum.progressPercentage;
+  }
+
   async upsertCourseMaterialProgess(
     courseEnrollmentId: string,
     courseMaterialId: string,
     progressPercentage: number,
-  ): Promise<boolean> {
-    await this._courseMaterialProgressEntity.upsert({
+  ): Promise<string> {
+    const progress = await this._courseMaterialProgressEntity.upsert({
+      select: {
+        id: true,
+      },
       where: {
         courseMaterialId_courseEnrollmentId: {
           courseEnrollmentId: courseEnrollmentId,
@@ -57,6 +75,6 @@ export class CourseMaterialProgressRepository
       },
     });
 
-    return true;
+    return progress.id;
   }
 }
