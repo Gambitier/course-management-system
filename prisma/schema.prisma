@@ -67,7 +67,7 @@ model Course {
   approvedBy       User?              @relation(name: "CourseApprovedByUser", fields: [approvedByUserId], references: [id])
   approvedByUserId String?            @db.Uuid
   approvedAt       DateTime?          @db.Timestamptz(6)
-  CourseMaterial   CourseMaterial[]
+  courseMaterials  CourseMaterial[]
 }
 
 model CourseEnrollment {
@@ -116,7 +116,7 @@ model CourseProgressReward {
   updatedAt          DateTime         @updatedAt @db.Timestamptz(6)
   deleted            DateTime?        @db.Timestamptz(6)
   courseEnrollment   CourseEnrollment @relation(fields: [courseEnrollmentId], references: [id])
-  courseEnrollmentId String           @db.Uuid
+  courseEnrollmentId String           @db.Uuid @unique
   progressPercentage Int
   rewardPoints       Int
 }
