@@ -3,6 +3,7 @@ import { CourseEnrollmentController } from '@modules/course/controllers/course.e
 import { CourseMaterialController } from '@modules/course/controllers/course.material.controller';
 import {
   CourseEnrollmentRepositoryProvider,
+  CourseMaterialProgressRepositoryProvider,
   CourseMaterialRepositoryProvider,
   CourseRepositoryProvider,
 } from '@modules/course/repo.providers';
@@ -29,6 +30,7 @@ import { PrismaService } from 'src/prisma.service';
     CourseEnrollmentRepositoryProvider,
     CourseMaterialServiceProvider,
     CourseMaterialRepositoryProvider,
+    CourseMaterialProgressRepositoryProvider,
   ],
   exports: [
     CourseServiceProvider,

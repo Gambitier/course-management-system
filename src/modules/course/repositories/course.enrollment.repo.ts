@@ -29,6 +29,24 @@ export class CourseEnrollmentRepository implements ICourseEnrollmentRepository {
     this._courseEnrollmentEntity = prismaService.courseEnrollment;
   }
 
+  async isCourseEnrollmentBelongsToUser(
+    userId: string,
+    courseEnrollmentId: string,
+  ): Promise<boolean> {
+    try {
+      await this._courseEnrollmentEntity.findFirstOrThrow({
+        where: {
+          userId: userId,
+          id: courseEnrollmentId,
+        },
+      });
+
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
   async getCourseEnrollments(
     courseId: string,
   ): Promise<CourseEnrollmeentDomainModel[]> {

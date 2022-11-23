@@ -7,6 +7,11 @@ export const ICourseEnrollmentRepository = Symbol(
 );
 
 export interface ICourseEnrollmentRepository {
+  isCourseEnrollmentBelongsToUser(
+    userId: string,
+    courseEnrollmentId: string,
+  ): boolean | PromiseLike<boolean>;
+
   getCourseEnrollments(
     courseId: string,
   ): Promise<CourseEnrollmeentDomainModel[]>;

@@ -15,6 +15,16 @@ export class CourseEnrollmentService implements ICourseEnrollmentService {
     //
   }
 
+  isCourseEnrollmentBelongsToUser(
+    userId: string,
+    courseEnrollmentId: string,
+  ): boolean | PromiseLike<boolean> {
+    return this._courseEnrollmentRepository.isCourseEnrollmentBelongsToUser(
+      userId,
+      courseEnrollmentId,
+    );
+  }
+
   async enrollForCourse(courseId: string, userId: string): Promise<boolean> {
     await this._courseEnrollmentRepository.enrollForCourse(courseId, userId);
     return true;
