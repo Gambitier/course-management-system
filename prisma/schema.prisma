@@ -92,6 +92,7 @@ model CourseMaterial {
   deleted          DateTime?                @db.Timestamptz(6)
   course           Course                   @relation(fields: [courseId], references: [id])
   courseId         String                   @db.Uuid
+  title            String                   @db.VarChar(200)
   pdfUrl           String                   @db.VarChar(2048)
   videoUrl         String                   @db.VarChar(2048)
   quizUrl          String                   @db.VarChar(2048)
@@ -116,7 +117,7 @@ model CourseProgressReward {
   updatedAt          DateTime         @updatedAt @db.Timestamptz(6)
   deleted            DateTime?        @db.Timestamptz(6)
   courseEnrollment   CourseEnrollment @relation(fields: [courseEnrollmentId], references: [id])
-  courseEnrollmentId String           @db.Uuid @unique
+  courseEnrollmentId String           @unique @db.Uuid
   progressPercentage Int
   rewardPoints       Int
 }
