@@ -109,6 +109,8 @@ model CourseMaterialProgress {
   courseEnrollment   CourseEnrollment @relation(fields: [courseEnrollmentId], references: [id])
   courseEnrollmentId String           @db.Uuid
   progressPercentage Int
+
+  @@unique([courseMaterialId, courseEnrollmentId])
 }
 
 model CourseProgressReward {
