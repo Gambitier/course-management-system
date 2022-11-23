@@ -9,3 +9,10 @@ export type CourseMaterialDomainModel = {
   videoUrl: string;
   quizUrl: string;
 };
+
+export type CreateCourseMaterialDomainModel = {
+  title: string;
+  pdfUrl: string;
+  videoUrl: string;
+  quizUrl: string;
+};

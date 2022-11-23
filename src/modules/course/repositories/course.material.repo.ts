@@ -1,4 +1,7 @@
-import { CourseMaterialDomainModel } from '@modules/course/domain.types/course-material/course.material.domain.model';
+import {
+  CourseMaterialDomainModel,
+  CreateCourseMaterialDomainModel,
+} from '@modules/course/domain.types/course-material/course.material.domain.model';
 import { ICourseMaterialRepository } from '@modules/course/repositories/course.material.repo.interface';
 import { IDatabaseErrorHandler } from '@modules/database-error-handler/database.error.handler.interface';
 import { Inject, Injectable } from '@nestjs/common';
@@ -24,6 +27,25 @@ export class CourseMaterialRepository implements ICourseMaterialRepository {
     private _databaseErrorHandler: IDatabaseErrorHandler,
   ) {
     this._courseMaterialEntity = prismaService.courseMaterial;
+  }
+
+  async createCourseMaterial(
+    courseId: string,
+    userId: string,
+    requestDto: CreateCourseMaterialDomainModel,
+  ): Promise<CourseMaterialDomainModel> {
+    const data: CourseMaterial = await this._courseMaterialEntity.create({
+      data: {
+        ...requestDto,
+        course: {
+          connect: {
+            id: courseId,
+          },
+        },
+      },
+    });
+
+    return data;
   }
 
   async getCourseMaterials(
