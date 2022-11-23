@@ -1,7 +1,7 @@
 import { APIResponse } from '@common/types';
 import { Roles, UserRoleEnum } from '@modules/auth/common';
 import { JwtUserDataDto } from '@modules/auth/dto/response-dto/jwt.user.data.dto';
-import { ICourseService } from '@modules/course/services/course.service.interface';
+import { ICourseEnrollmentService } from '@modules/course/services/course.enrollment.service.interface';
 import {
   Controller,
   Get,
@@ -22,8 +22,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @Controller('course-enrollments')
 export class CourseEnrollmentController {
   constructor(
-    @Inject(ICourseService)
-    private readonly _courseService: ICourseService,
+    @Inject(ICourseEnrollmentService)
+    private readonly _courseEnrollmentService: ICourseEnrollmentService,
   ) {}
 
   @Roles(UserRoleEnum.ADMIN, UserRoleEnum.SUPERADMIN)
@@ -32,9 +32,12 @@ export class CourseEnrollmentController {
   async getCourseEnrollmentsById(
     @Param('courseId', new ParseUUIDPipe()) courseId: string,
   ): Promise<APIResponse> {
+    const enrollments =
+      await this._courseEnrollmentService.getCourseEnrollments(courseId);
+
     const apiResponse: APIResponse = {
       message: 'Retrieved course by id',
-      data: null,
+      data: enrollments,
     };
 
     return apiResponse;
@@ -49,9 +52,11 @@ export class CourseEnrollmentController {
   ): Promise<APIResponse> {
     const user = req.user as JwtUserDataDto;
 
+    await this._courseEnrollmentService.enrollForCourse(courseId, user.id);
+
     const apiResponse: APIResponse = {
       message: 'Retrieved course by id',
-      data: null,
+      data: true,
     };
 
     return apiResponse;
