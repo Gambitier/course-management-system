@@ -25,6 +25,8 @@ async function main() {
     javaCourseEntity,
   );
 
+  await seedCourseProgress();
+
   console.log({ adminEntity, superAdminEntity, employeeEntity });
   console.log({ javascriptCourseEntity, pythonCourseEntity, javaCourseEntity });
 }
@@ -38,6 +40,34 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+async function seedCourseProgress() {
+  await prisma.courseMaterialProgress.upsert({
+    where: {
+      id: 'cca61007-ff59-4cf7-bd3d-66af1e083730',
+    },
+    update: {},
+    create: {
+      id: 'cca61007-ff59-4cf7-bd3d-66af1e083730',
+      courseMaterialId: '7e366a72-92a2-41de-ba3b-5f4a0adc7435',
+      courseEnrollmentId: '88fb0ab8-9a9e-4632-ac36-ccd7604bc875',
+      progressPercentage: 100,
+    },
+  });
+
+  await prisma.courseMaterialProgress.upsert({
+    where: {
+      id: '187feabc-7b47-431a-a136-3a561cf8d7d1',
+    },
+    update: {},
+    create: {
+      id: '187feabc-7b47-431a-a136-3a561cf8d7d1',
+      courseMaterialId: '8a767686-8ab3-4ad7-8976-e5be78666227',
+      courseEnrollmentId: '88fb0ab8-9a9e-4632-ac36-ccd7604bc875',
+      progressPercentage: 20,
+    },
+  });
+}
 
 async function seedCourseEnrollments(
   employeeEntity: User,
