@@ -241,7 +241,7 @@ export class CourseRepository implements ICourseRepository {
       entity = await this._courseEntity.update({
         data: {
           ...domainModel,
-          approvedBy: null,
+          approvedByUserId: null,
           approvedAt: null,
         },
         where: {
