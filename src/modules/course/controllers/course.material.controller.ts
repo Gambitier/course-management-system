@@ -72,7 +72,7 @@ export class CourseMaterialController {
     return apiResponse;
   }
 
-  @Roles(UserRoleEnum.ADMIN)
+  @Roles(UserRoleEnum.EMPLOYEE)
   @HttpCode(HttpStatus.CREATED)
   @Put(':courseMaterialId/enrollments/:courseEnrollmentId/progress')
   async upsertCourseMaterialProgess(
