@@ -4,6 +4,10 @@
 
 ![Nestjs Architecture](docs/nestjs-architecture.png)
 
+## ER Diagram
+
+![Nestjs Architecture](docs/ER-Diagram.png))
+
 ---
 
 ## Postman Collection
