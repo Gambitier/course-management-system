@@ -93,9 +93,9 @@ model CourseMaterial {
   course           Course                   @relation(fields: [courseId], references: [id])
   courseId         String                   @db.Uuid
   title            String                   @db.VarChar(200)
-  pdfUrl           String                   @db.VarChar(2048)
-  videoUrl         String                   @db.VarChar(2048)
-  quizUrl          String                   @db.VarChar(2048)
+  pdfUrl           String?                  @db.VarChar(2048)
+  videoUrl         String?                  @db.VarChar(2048)
+  quizUrl          String?                  @db.VarChar(2048)
   userProgressInfo CourseMaterialProgress[]
 }
 

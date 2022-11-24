@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "CourseMaterial" ALTER COLUMN "pdfUrl" DROP NOT NULL,
+ALTER COLUMN "videoUrl" DROP NOT NULL,
+ALTER COLUMN "quizUrl" DROP NOT NULL;
