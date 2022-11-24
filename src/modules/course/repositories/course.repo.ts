@@ -34,6 +34,14 @@ export class CourseRepository implements ICourseRepository {
     private _databaseErrorHandler: IDatabaseErrorHandler,
   ) {
     this._courseEntity = prismaService.course;
+    prismaService.$on<any>('query', (event: Prisma.QueryEvent) => {
+      console.log('Query: ' + event.query);
+      console.log('Duration: ' + event.duration + 'ms');
+    });
+    prismaService.$on<any>('log', (event: Prisma.LogEvent) => {
+      console.log('message: ' + event.message);
+      console.log('target: ' + event.target);
+    });
   }
 
   async searchCourse(
@@ -203,6 +211,15 @@ export class CourseRepository implements ICourseRepository {
     let entity: Course;
 
     try {
+      await this._courseEntity.findFirstOrThrow({
+        where: {
+          id: id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
       entity = await this._courseEntity.update({
         data: {
           ...domainModel,
