@@ -64,13 +64,13 @@ export class CourseService implements ICourseService {
   async createCourse(
     requestDto: CreateCourseDto,
     user: JwtUserDataDto,
-  ): Promise<boolean> {
+  ): Promise<string> {
     const createDomainModel: CreateCourseDomainModel = {
       ...requestDto,
       createdByUserId: user.id,
     };
-    await this._courseRepository.createCourse(createDomainModel);
-    return true;
+    const course = await this._courseRepository.createCourse(createDomainModel);
+    return course.id;
   }
 
   async updateCourse(

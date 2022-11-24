@@ -44,14 +44,16 @@ export class CourseController {
   ): Promise<APIResponse> {
     const user = req.user as JwtUserDataDto;
 
-    const status: boolean = await this._courseService.createCourse(
+    const courseId: string = await this._courseService.createCourse(
       requestDto,
       user,
     );
 
     const apiResponse: APIResponse = {
       message: 'Course created successfully!',
-      data: status,
+      data: {
+        id: courseId,
+      },
     };
 
     return apiResponse;

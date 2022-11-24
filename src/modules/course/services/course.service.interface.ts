@@ -26,7 +26,7 @@ export interface ICourseService {
   createCourse(
     requestDto: CreateCourseDto,
     user: JwtUserDataDto,
-  ): boolean | PromiseLike<boolean>;
+  ): Promise<string>;
 
   updateCourse(id: string, requestDto: UpdateCourseDto): Promise<boolean>;
 }
