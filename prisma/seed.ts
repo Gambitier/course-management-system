@@ -16,6 +16,15 @@ async function main() {
   const { javascriptCourseEntity, pythonCourseEntity, javaCourseEntity } =
     await seedCourses(adminEntity, superAdminEntity);
 
+  await seedJavascriptCourseMaterial(javascriptCourseEntity);
+
+  await seedCourseEnrollments(
+    employeeEntity,
+    javascriptCourseEntity,
+    pythonCourseEntity,
+    javaCourseEntity,
+  );
+
   console.log({ adminEntity, superAdminEntity, employeeEntity });
   console.log({ javascriptCourseEntity, pythonCourseEntity, javaCourseEntity });
 }
@@ -29,6 +38,78 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+async function seedCourseEnrollments(
+  employeeEntity: User,
+  javascriptCourseEntity: Course,
+  pythonCourseEntity: Course,
+  javaCourseEntity: Course,
+) {
+  const javascriptCourseEnrollment: Prisma.CourseEnrollmentCreateManyInput = {
+    id: '88fb0ab8-9a9e-4632-ac36-ccd7604bc875',
+    userId: employeeEntity.id,
+    courseId: javascriptCourseEntity.id,
+  };
+  const pythonCourseEnrollment: Prisma.CourseEnrollmentCreateManyInput = {
+    id: 'a3ee0171-cc46-40d1-9da2-5db0326a26d0',
+    userId: employeeEntity.id,
+    courseId: pythonCourseEntity.id,
+  };
+  const enrollment3: Prisma.CourseEnrollmentCreateManyInput = {
+    id: '5752c2bb-c312-4efd-be74-2f137261e743',
+    userId: employeeEntity.id,
+    courseId: javaCourseEntity.id,
+  };
+
+  await prisma.courseEnrollment.createMany({
+    data: [javascriptCourseEnrollment, pythonCourseEnrollment, enrollment3],
+  });
+
+  return {
+    enrollment1: javascriptCourseEnrollment,
+    enrollment2: pythonCourseEnrollment,
+    enrollment3,
+  };
+}
+
+async function seedJavascriptCourseMaterial(javascriptCourseEntity: Course) {
+  await prisma.courseMaterial.createMany({
+    data: [
+      {
+        id: '7e366a72-92a2-41de-ba3b-5f4a0adc7435',
+        courseId: javascriptCourseEntity.id,
+        title: 'javascript - Material 1',
+        pdfUrl: 'www.pdf.com/javascript-Material-1',
+        videoUrl: null,
+        quizUrl: null,
+      },
+      {
+        id: '8a767686-8ab3-4ad7-8976-e5be78666227',
+        courseId: javascriptCourseEntity.id,
+        title: 'javascript - Material 2',
+        pdfUrl: null,
+        videoUrl: 'www.video.com/javascript-Material-2',
+        quizUrl: null,
+      },
+      {
+        id: '3019dadc-276d-4bda-bb65-6aaf0bffa728',
+        courseId: javascriptCourseEntity.id,
+        title: 'javascript - Material 3',
+        pdfUrl: 'www.pdf.com/javascript-Material-3',
+        videoUrl: null,
+        quizUrl: null,
+      },
+      {
+        id: '5819aa40-7e08-4b7e-97f5-5551633af1ec',
+        courseId: javascriptCourseEntity.id,
+        title: 'javascript - Material 4',
+        pdfUrl: null,
+        videoUrl: null,
+        quizUrl: 'www.quiz.com/javascript-Material-4',
+      },
+    ],
+  });
+}
 
 async function seedCourses(adminEntity: User, superAdminEntity: User) {
   const javascriptCourse: Course = {
