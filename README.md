@@ -2,9 +2,36 @@
 
 ## Installation
 
+### Database setup & .env file
+
+1. Copy `.env.sample` to same location and rename it to `.env`
+2. In the `.env` file, update your database URL and make sure you have created database
+
+### Install Packages
+
 ```bash
-$ npm install
+npm install
 ```
+
+### Build Project
+
+```bash
+npm run build
+```
+
+### Database Migration
+
+```bash
+npm run prisma:migrate
+```
+
+### Seed database
+
+```bash
+npm run prisma:seed
+```
+
+---
 
 ## Running the app
 
