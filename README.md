@@ -1,5 +1,17 @@
 # COURSE-MANAGEMENT-SYSTEM
 
+## Architecture
+
+![Nestjs Architecture](docs/nestjs-architecture.png)
+
+---
+
+## Postman Collection
+
+[Please download postman collection here](docs/postman-collection/cms.postman_collection_24_nov_2022.json)
+
+---
+
 ## Installation
 
 ### Database setup & .env file
@@ -45,3 +57,5 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+---

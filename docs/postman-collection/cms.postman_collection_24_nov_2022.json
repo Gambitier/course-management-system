@@ -1,0 +1,828 @@
+{
+	"info": {
+		"_postman_id": "459fc824-a959-4651-a68b-efdf6fb75b1f",
+		"name": "cms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12792794"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    pm.test(\"Body matches string\", function () {\r",
+									"        pm.expect(pm.response.text()).to.include(\"accessToken\");\r",
+									"    });\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"accessToken\", jsonData.data.entity.token.accessToken);\r",
+									"    pm.collectionVariables.set(\"userId\", jsonData.data.entity.user.id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"prefix\": \"MR\",\r\n  \"firstName\": \"Ashish\",\r\n  \"lastName\": \"Patil\",\r\n  \"email\": \"ashish@yopmail.com\",\r\n  \"phone\": \"1237367891\",\r\n  \"gender\": \"MALE\",\r\n  \"password\": \"Test@123\",\r\n  \"dateOfBirth\": \"1195-11-21\",\r\n  \"middleName\": \"string\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/signup",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login - superadmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    pm.test(\"Body matches string\", function () {\r",
+									"        pm.expect(pm.response.text()).to.include(\"accessToken\");\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Body should not contain password string\", function () {\r",
+									"        pm.expect(pm.response.text()).to.not.include(\"password\");\r",
+									"    });\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"accessToken\", jsonData.data.entity.token.accessToken);\r",
+									"    pm.collectionVariables.set(\"userId\", jsonData.data.entity.user.id);\r",
+									"    pm.collectionVariables.set(\"roles\", jsonData.data.entity.user.userRoles.map(item => item.role));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"cms-superadmin@yopmail.com\",\r\n  \"password\": \"Test@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login - admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    pm.test(\"Body matches string\", function () {\r",
+									"        pm.expect(pm.response.text()).to.include(\"accessToken\");\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Body should not contain password string\", function () {\r",
+									"        pm.expect(pm.response.text()).to.not.include(\"password\");\r",
+									"    });\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"accessToken\", jsonData.data.entity.token.accessToken);\r",
+									"    pm.collectionVariables.set(\"userId\", jsonData.data.entity.user.id);\r",
+									"    pm.collectionVariables.set(\"roles\", jsonData.data.entity.user.userRoles.map(item => item.role));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"cms-admin@yopmail.com\",\r\n  \"password\": \"Test@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login - employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    pm.test(\"Body matches string\", function () {\r",
+									"        pm.expect(pm.response.text()).to.include(\"accessToken\");\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Body should not contain password string\", function () {\r",
+									"        pm.expect(pm.response.text()).to.not.include(\"password\");\r",
+									"    });\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"accessToken\", jsonData.data.entity.token.accessToken);\r",
+									"    pm.collectionVariables.set(\"userId\", jsonData.data.entity.user.id);\r",
+									"    pm.collectionVariables.set(\"roles\", jsonData.data.entity.user.userRoles.map(item => item.role));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"cms-employee@yopmail.com\",\r\n  \"password\": \"Test@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset-password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"newPassword\": \"Test@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/password",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "course",
+			"item": [
+				{
+					"name": "create-course",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"createdCourseId\", jsonData.data.id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Advanced JavaScript\",\r\n  \"description\": \"This course will be advanced guide to JavaScript\",\r\n  \"videoUrl\": \"http://localhost:7575/course/AdvancedJavaScript\",\r\n  \"topics\": [\r\n    \"Introduction\",\r\n    \"Conditional Statements\"\r\n  ],\r\n  \"durationMinutes\": 120,\r\n  \"category\": \"Programming\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/courses",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-course",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Advanced JavaScript 2\",\r\n  \"description\": \"This course will be advanced guide to JavaScript\",\r\n  \"videoUrl\": \"http://localhost:7575/course/AdvancedJavaScript\",\r\n  \"topics\": [\r\n    \"Introduction\",\r\n    \"Conditional Statements\"\r\n  ],\r\n  \"durationMinutes\": 120,\r\n  \"category\": \"Programming\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/courses/:courseId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"courses",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{createdCourseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-course",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/courses/:courseId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"courses",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{createdCourseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/courses?limit=10&offset=0&sortBy=category&sortOrder=asc",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"courses"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "title",
+									"value": "java",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "category"
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unapproved courses",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/courses/unapproved?limit=10&offset=0&sortBy=category&sortOrder=asc",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"courses",
+								"unapproved"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "title",
+									"value": "java",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "category"
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approve",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/courses/:courseId/approve",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"courses",
+								":courseId",
+								"approve"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{createdCourseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/courses/:courseId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"courses",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "adf36ca7-b8cd-4c98-b2e6-2aebd92b2469"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "course-enrollment",
+			"item": [
+				{
+					"name": "Enroll For Course - Employee",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/course-enrollments/courses/:courseId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"course-enrollments",
+								"courses",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{createdCourseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Course Enrollments - Admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/course-enrollments/courses/:courseId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"course-enrollments",
+								"courses",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{createdCourseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "my-progress/rewards - Course Enrollments - Employee",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/course-enrollments/courses/:courseId/my-progress",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"course-enrollments",
+								"courses",
+								":courseId",
+								"my-progress"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{seededCourseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "course-materials",
+			"item": [
+				{
+					"name": "material",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Introducction\",\r\n  \"videoUrl\": null,\r\n  \"pdfUrl\":  null,\r\n  \"quizUrl\": \"www.quiz.com/programming-101\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/course-materials/course/:courseId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"course-materials",
+								"course",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{createdCourseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "course material progress",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"progressPercentage\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/course-materials/:courseMaterialId/enrollments/:courseEnrollmentId/progress",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"course-materials",
+								":courseMaterialId",
+								"enrollments",
+								":courseEnrollmentId",
+								"progress"
+							],
+							"variable": [
+								{
+									"key": "courseMaterialId",
+									"value": "{{seededCourseMaterial_2_Id}}"
+								},
+								{
+									"key": "courseEnrollmentId",
+									"value": "{{seededJavascriptCourseEnrollmentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "materials",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/course-materials/course/:courseId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"course-materials",
+								"course",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": "{{seededCourseId}}",
+									"description": "you can either set seededCourseId or createdCourseId"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "http://localhost:7575/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "roles",
+			"value": ""
+		},
+		{
+			"key": "createdCourseId",
+			"value": ""
+		},
+		{
+			"key": "seededCourseId",
+			"value": "ea3076ec-6c02-4164-949a-eec7770e4698"
+		},
+		{
+			"key": "seededCourseMaterial_1_Id",
+			"value": "7e366a72-92a2-41de-ba3b-5f4a0adc7435"
+		},
+		{
+			"key": "seededJavascriptCourseEnrollmentId",
+			"value": "88fb0ab8-9a9e-4632-ac36-ccd7604bc875"
+		},
+		{
+			"key": "seededCourseMaterial_2_Id",
+			"value": "8a767686-8ab3-4ad7-8976-e5be78666227"
+		}
+	]
+}
