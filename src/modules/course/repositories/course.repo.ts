@@ -124,6 +124,15 @@ export class CourseRepository implements ICourseRepository {
 
   async approveCourse(courseId: string, userId: string): Promise<boolean> {
     try {
+      await this._courseEntity.findFirstOrThrow({
+        where: {
+          id: courseId,
+        },
+        select: {
+          id: true,
+        },
+      });
+
       await this._courseEntity.update({
         data: {
           approvedAt: new Date(),
@@ -161,6 +170,15 @@ export class CourseRepository implements ICourseRepository {
 
   async deleteCourse(courseId: string): Promise<boolean> {
     try {
+      await this._courseEntity.findFirstOrThrow({
+        where: {
+          id: courseId,
+        },
+        select: {
+          id: true,
+        },
+      });
+
       await this._courseEntity.update({
         where: {
           id: courseId,

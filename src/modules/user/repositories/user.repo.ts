@@ -37,6 +37,15 @@ export class UserRepository implements IUserRepository {
     updatePasswordDto: UpdatePasswordDto,
   ): Promise<boolean> {
     try {
+      await this._userEntity.findFirstOrThrow({
+        where: {
+          id: userId,
+        },
+        select: {
+          id: true,
+        },
+      });
+
       await this._userEntity.update({
         where: {
           id: userId,

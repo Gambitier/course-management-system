@@ -5,7 +5,10 @@ import {
 } from '@modules/database-error-handler/errors';
 import { PrismaError } from '@modules/database-error-handler/prisma/enums/prisma.error.code.enum';
 import { Injectable } from '@nestjs/common';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime';
 
 /////////////////////////////////////////////////////////////////////
 
@@ -19,6 +22,9 @@ export class PrismaDatabaseErrorHandler implements IDatabaseErrorHandler {
     if (error instanceof PrismaClientKnownRequestError) {
       const exception = error as PrismaClientKnownRequestError;
       this.HandlePrismaClientKnownRequestError(exception);
+    } else if (error instanceof PrismaClientValidationError) {
+      const exception = error as PrismaClientValidationError;
+      this.HandlePrismaClientValidationError(exception);
     } else if (error.name === 'NotFoundError') {
       throw new DataNotFoundError(error.message);
     }
@@ -36,5 +42,11 @@ export class PrismaDatabaseErrorHandler implements IDatabaseErrorHandler {
         throw new UniqueConstraintFailedError(fieldName, msg);
       }
     }
+  }
+
+  HandlePrismaClientValidationError(exception: PrismaClientValidationError) {
+    // https://www.prisma.io/docs/reference/api-reference/error-reference#prismaclientvalidationerror
+    // Prisma Client throws a PrismaClientValidationError exception if validation fails
+    throw new Error(exception.message);
   }
 }
