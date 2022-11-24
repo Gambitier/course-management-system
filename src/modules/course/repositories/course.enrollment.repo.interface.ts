@@ -7,6 +7,8 @@ export const ICourseEnrollmentRepository = Symbol(
 );
 
 export interface ICourseEnrollmentRepository {
+  getUserCourseEnrollmentProgress(userId: string, courseId: string): any;
+
   isCourseEnrollmentBelongsToUser(
     userId: string,
     courseEnrollmentId: string,

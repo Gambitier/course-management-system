@@ -28,7 +28,7 @@ export class CourseEnrollmentController {
 
   @Roles(UserRoleEnum.ADMIN, UserRoleEnum.SUPERADMIN)
   @HttpCode(HttpStatus.OK)
-  @Get(':courseId')
+  @Get('courses/:courseId')
   async getCourseEnrollmentsById(
     @Param('courseId', new ParseUUIDPipe()) courseId: string,
   ): Promise<APIResponse> {
@@ -45,7 +45,29 @@ export class CourseEnrollmentController {
 
   @Roles(UserRoleEnum.EMPLOYEE)
   @HttpCode(HttpStatus.OK)
-  @Post(':courseId')
+  @Get('courses/:courseId/my-progress')
+  async getMyCourseEnrollmentProgress(
+    @Request() req,
+    @Param('courseId', new ParseUUIDPipe()) courseId: string,
+  ): Promise<APIResponse> {
+    const user = req.user as JwtUserDataDto;
+    const progress =
+      await this._courseEnrollmentService.getUserCourseEnrollmentProgress(
+        user.id,
+        courseId,
+      );
+
+    const apiResponse: APIResponse = {
+      message: 'Retrieved course progress',
+      data: progress,
+    };
+
+    return apiResponse;
+  }
+
+  @Roles(UserRoleEnum.EMPLOYEE)
+  @HttpCode(HttpStatus.OK)
+  @Post('courses/:courseId')
   async enrollForCourse(
     @Request() req,
     @Param('courseId', new ParseUUIDPipe()) courseId: string,

@@ -15,6 +15,16 @@ export class CourseEnrollmentService implements ICourseEnrollmentService {
     //
   }
 
+  async getUserCourseEnrollmentProgress(
+    userId: string,
+    courseId: string,
+  ): Promise<any> {
+    return this._courseEnrollmentRepository.getUserCourseEnrollmentProgress(
+      userId,
+      courseId,
+    );
+  }
+
   isCourseEnrollmentBelongsToUser(
     userId: string,
     courseEnrollmentId: string,
