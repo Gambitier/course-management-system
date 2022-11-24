@@ -27,8 +27,8 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 /////////////////////////////////////////////////////////////////////////
 
 @ApiBearerAuth()
-@ApiTags('course')
-@Controller('course')
+@ApiTags('courses')
+@Controller('courses')
 export class CourseController {
   constructor(
     @Inject(ICourseService)
@@ -118,7 +118,7 @@ export class CourseController {
 
   @ApiResponse({ status: HttpStatus.OK })
   @HttpCode(HttpStatus.OK)
-  @Get('search')
+  @Get('')
   async searchCourse(
     @Request() req,
     @Query() searchDTO: CourseSearchCourse,

@@ -74,7 +74,7 @@ export class CourseMaterialController {
 
   @Roles(UserRoleEnum.ADMIN)
   @HttpCode(HttpStatus.CREATED)
-  @Put(':courseMaterialId/enrollments/:courseEnrollmentId')
+  @Put(':courseMaterialId/enrollments/:courseEnrollmentId/progress')
   async upsertCourseMaterialProgess(
     @Request() req,
     @Param('courseMaterialId', new ParseUUIDPipe())
